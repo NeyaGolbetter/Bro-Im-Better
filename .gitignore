@@ -1,0 +1,12 @@
+# Dependencies (installed locally for the tooling in tools/)
+node_modules/
+__pycache__/
+*.pyc
+
+# Editor / OS noise
+.vscode/
+.idea/
+.DS_Store
+
+# Local reports
+rebrand-report.json
