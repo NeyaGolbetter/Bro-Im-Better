@@ -1,0 +1,53 @@
+name: TBV v4 checks
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+jobs:
+  syntax:
+    name: Luau syntax
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - run: npm install luau-parser
+      - run: node tools/check-syntax.js
+
+  api:
+    name: Roblox API usage
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      # @rbxts/types is generated from Roblox's API dump and is our source of
+      # truth for enum members and instance properties.
+      - run: npm install @rbxts/types
+      - run: python3 tools/validate-api.py
+
+  build-and-smoke:
+    name: Build + headless boot
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: npm install fengari
+      - name: Bundle
+        run: python3 tools/build.py
+      - name: Confirm the bundle is committed
+        run: git diff --exit-code -- dist/TBVv4.lua
+      - name: Headless smoke test
+        run: node tools/smoke/run.js
