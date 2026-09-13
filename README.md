@@ -160,6 +160,12 @@ npm install fengari
 node tools/smoke/run.js                        # boot the bundle headlessly
 ```
 
+### Continuous integration
+
+`tools/ci/github-workflow.yml` is a ready-made GitHub Actions workflow that runs all
+three checks above. Copy it to `.github/workflows/ci.yml` to enable it (it lives outside
+`.github/` because the app used for this work is not permitted to push workflow files).
+
 ### Rebranding an upstream tree
 
 ```bash

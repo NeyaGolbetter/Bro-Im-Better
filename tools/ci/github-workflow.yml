@@ -1,3 +1,18 @@
+# =============================================================================
+#  TBV v4 - GitHub Actions workflow
+# -----------------------------------------------------------------------------
+#  Copy this file to .github/workflows/ci.yml to enable CI.
+#
+#  It is kept outside .github/ on purpose: the GitHub App used by this session
+#  does not have the `workflows` permission, so pushing directly to
+#  .github/workflows/ is rejected by GitHub. Move it (or grant the permission)
+#  and the three jobs below will run on every push and pull request:
+#
+#    syntax  - parse every source file and the bundle with a real Luau parser
+#    api     - validate Enums + instance properties against Roblox's API dump
+#    build   - bundle, verify dist/ is committed, then boot it headlessly
+# =============================================================================
+
 name: TBV v4 checks
 
 on:
